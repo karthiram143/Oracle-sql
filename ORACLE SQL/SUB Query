@@ -1,0 +1,104 @@
+-- SUB QUERY
+its is a query or select query inside another queryto improve the maintainability  and performance of your query
+-- TYPE:
+single row sub query
+multi row sub query
+scalar sub query
+inline sub query
+Nested sub query
+Correlated sub query
+Multi column sub query
+
+        -- single row sub query 
+a sub query returned  only one row/valuerelational opeators supported (=,<,>,<=,<>,in, not in,>=)
+-- SYN:
+SELECT column1,columnsFrom table 
+where condition=(--sub query below (17)
+    select column 1 from table where condition)
+--  example:(reqirement like i want to check greater than Betty salary people want to see)
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE WHERE FIRST_NAME='Betty';
+-- result:
+IRST_NAME	SALARY
+Betty	56000
+-- (to check the salary greater thatn betty i am getting the result now)
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE WHERE SALARY>'56000';
+-- result:
+FIRST_NAME	SALARY
+Jane	62000
+Emily	72000
+-- (using sub query final query)
+-- this kind of result i need to acchive in a single query use the sub query
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE 
+WHERE SALARY >(SELECT SALARY 
+              FROM EMPLOYEE WHERE FIRST_NAME='Betty');
+
+-- RESULT:
+FIRST_NAME	SALARY
+Jane	62000
+Emily	72000
+
+
+    --    multi row sub query
+A sub query returning more than one row/value
+rational operator supported (IN, NOT IN ALL, ANY)
+-- SYN:
+SELECT column, column FROM tablewhere condition in | not in (select column from table where condition)    
+-- example:(Requirementwho ever is working under department-90  is couple person salary are takenis they are lesser than salary will show the screen)
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE WHERE DEPARTMENT_ID='30'
+-- RESULT:
+FIRST_NAME	SALARY
+Emily	72000
+David	61000
+Emily	72000
+-- Manullay taken the salary and using the query that is requiement for this case will go mulit row sub query 
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE WHERE SALARY NOT IN (61000,72000,56000);
+-- RESULT:
+FIRST_NAME	SALARY
+John	55000
+Jane	62000
+Robert	48000
+
+--  (final sub query)
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE 
+WHERE SALARY NOT IN (SELECT SALARY 
+                     FROM EMPLOYEE WHERE DEPARTMENT_ID='30');
+-- RESULT:
+FIRST_NAME	SALARY
+John	55000
+Jane	62000
+Robert	48000
+
+-- >ALL(based on the subquery which one is highest take the value and give the result)
+-- (sub query greater than 3 is 72000
+-- SALARY 72000,61000,56000)
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE 
+WHERE SALARY > '72000'; --AS LIKE 
+-- FINAL QUERY
+SELECT FIRST_NAME,SALARY FROM EMPLOYEE 
+WHERE SALARY > ALL (SELECT SALARY 
+                     FROM EMPLOYEE WHERE DEPARTMENT_ID='30');                  
+-- RESULT:
+FIRST_NAME	SALARY
+Matthew	75000                     
+
+--    scalar sub query
+A Sub query inside a select clause
+a scalar subquery returns exactly one ore as output
+if the scalar subquery finds no match it return null
+if the scalar subquery finds more than one math , return an eorrr
+-- syn:
+select column1,columns,(select column from t form ) from table
+-- example
+SELECT MIN(SALARY) FROM EMPLOYEE; --47000
+SELECT Max(SALARY) FROM EMPLOYEE; --75000
+-- sub query
+ SELECT FIRST_NAME ,(SELECT MIN(SALARY) FROM EMPLOYEE WHERE DEPARTMENT_ID='30')AS MIN_SALRY,SALARY,
+ (SELECT Max(SALARY) FROM EMPLOYEE WHERE DEPARTMENT_ID='20')AS MAX_SALARY 
+ FROM EMPLOYEE
+ WHERE DEPARTMENT_ID='10'
+--  RESULT:
+FIRST_NAME	MIN_SALRY	SALARY	MAX_SALARY
+John	56000	55000	67000
+Robert	56000	48000	67000
+James	56000	47000	67000
+
