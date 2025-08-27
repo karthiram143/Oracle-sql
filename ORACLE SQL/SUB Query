@@ -119,3 +119,9 @@ WHERE RN=5
 -- RESULT:
  RN	FIRST_NAME	EMPLOYEE_ID
 5	Michael	5
+
+   -- NESTED SUB QUERY ( as like Single row sub query and multi row sub query)
+
+ A sub query inside where clause
+--  syn:
+ SELECT column form tableWhere condition in|not (select column from where condition)
