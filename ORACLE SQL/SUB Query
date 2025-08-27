@@ -102,3 +102,20 @@ John	56000	55000	67000
 Robert	56000	48000	67000
 James	56000	47000	67000
 
+    --inline sub query/inline View
+A sub query inside a from clause
+in line views are used to simplify  complex queries
+-- syn:
+select column from table,(select column from table)where    
+-- Example:(ROW NUM ACCEPT ONLY 1 IN WHERE CLASUE NOT ALLOW OTHER NUMBERS based on the inserted row numbers)
+rownum=1, rownum <15 its works
+-- e.*  -- to get all the rows
+SELECT ROWNUM, e.* from EMPLOYEE E
+-- to achive the rownum=5 
+--  final query
+SELECT RN, FIRST_NAME,EMPLOYEE_ID 
+FROM (SELECT ROWNUM AS RN, e.* from EMPLOYEE E order by EMPLOYEE_ID asc) G
+WHERE RN=5
+-- RESULT:
+ RN	FIRST_NAME	EMPLOYEE_ID
+5	Michael	5
