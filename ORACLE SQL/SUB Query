@@ -125,3 +125,24 @@ WHERE RN=5
  A sub query inside where clause
 --  syn:
  SELECT column form tableWhere condition in|not (select column from where condition)
+
+   --  Correlated SUB QUERY
+
+ If a sub query depends  on outer query or the outer query depends on inner query
+--  syntax:
+ select column form table t1where condition in (select column from table t2 where t2.column =t2.column)
+-- example:
+SELECT FIRST_NAME , EMPLOYEE_ID FROM EMPLOYEE E 
+WHERE DEPARTMENT_ID IN (SELECT DEPRATMENT_ID FROM DEPARTMNET D WHERE D.DEPARTMENT_ID=E.DEPARTMENT_ID)
+
+     --MULTI COLUMN SUB QUERY
+MULTI COLUMN sub querythe subquery that returns more than one column
+-- SYN:
+select column from table where (column,colum) in (select columnsloumn from t where condition);   
+-- EXAMPLE  
+SELECT *FROM EMPLOYEE WHERE FIREST_NAME='DAVID'
+AND JOB_ID='SA_REP'
+-- Using 2 condition to handle the multi column sub query
+SELECT * FROM EMPLOYEE 
+WHERE (FIRST_NAME, JOB_ID) IN 
+(SELECT FIRST_NAME,JOB_9D) FROM EMPLOYEE WHER EMPLOYEE_ID IN(151,165))
