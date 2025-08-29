@@ -101,3 +101,6 @@ SELECT select_query WITH CHECK OPTION;
 -- EX:
 CREATE VIEW VIEW_CHECK AS 
 SELECT * FROM TEST_1 WHERE A IN(1,2) WITH CHECK OPTION; -- FOR BOTH CONDTION ONLY IT ALLOW THE dml OPEARTION                   
+--  i am trying to insert
+insert into VIEW_CHECK values (1,'d') -- it allow
+insert into VIEW_CHECK values (3,'D') --it NOT
