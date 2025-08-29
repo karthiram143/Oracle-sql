@@ -1,0 +1,78 @@
+    -- View: 
+view is a logical/virtual table that does not physically exist in the database and stored in oracle data dictionary
+view stores sql statement/queries in the database
+it will not hold any data of its own instead it will retrieves/fetch the data form the base table whenever it is required
+a view will looks and acts like a table
+no data is stored in the view
+-- Advantages:
+to make complex query to look simpleview used to increase the security 
+-- TYPE:
+Simple view
+complex view
+-- syn:
+CREATE (OR REPLACE) VIEW view_name as
+SELECT select_query;
+        -- simple view:( here just create the view )
+If a view is created based on single table
+it should not have any group function aggregate function etc.
+it should not contain DISTINCT keyword or any pseudo columns expression on the based columns
+DML are allowed
+
+-- ex
+CREATE VIEW emp_view_5 as
+SELECT FIRST_NAME ,SALARY FROM EMPLOYEE;
+-- after create view to query the view
+SELECT * FROM emp_view_5
+-- RESULT:
+FIRST_NAME	SALARY
+John	55000
+
+SELECT * FROM USER_VIEWS -- WHILE USING TO CHECK ENTIRE ALL THE VIEW ARE THERE
+
+-- if you want to update the view using REPLACE
+CREATE  OR REPLACE VIEW emp_view_5 as
+SELECT FIRST_NAME ,SALARY FROM EMPLOYEE WHERE DEPARTMENT_ID=10;
+-- if you want to update the records is can
+UPDATE emp_view_5
+SET FIRST_NAME='KARTHIKEYAN' 
+WHERE SALARY='55000' AND FIRST_NAME='John'
+-- RESULT:
+FIRST_NAME	SALARY
+KARTHIKEYAN	55000
+Robert	48000
+James	47000
+KARTHIKEYAN	55000
+
+-- Complex View:
+ If the SELECT clause has any DISTINCT keywords , aggregate function,analytical function 
+ if the SELECT clause uses set opeators (ef:UNION)
+If the SELECT clause use subqueries, join, functionsus the GROUP BY, HAVING,ORDER BY,START WITH clause
+Contain pseudo columns or expression
+if the query uses the data dictionary table
+-- SYN:
+CREATE (OR REPLACE) VIEW view_name AS
+SELECT select_query;
+-- ex:
+CREATE OR REPLACE VIEW emp_sal_1 as
+SELECT 
+D.department_id ,d.department_name ,SUM(e.salary) total_salary 
+FROM DEPRATMENT d inner join employee e on D.department_id=e.department_id 
+group by D.department_id,D.department_name;
+
+-- for this view not possible to do the DML opeation becuase of SUM(aggreate function)
+
+-- 2. example
+CREATE OR REPLACE VIEW emp_sal_1 as
+SELECT 
+D.department_id ,d.department_name ,salary
+FROM DEPRATMENT d inner join employee e on D.department_id=e.department_id;
+
+-- for this view not possible to do the DML opeation becuase of JOIN
+INSERT INTO emp_sal_1 VALUE (10,'KARTHI',800); --NOT
+--  3. EXAMPLE:
+CREATE OR REPLACE DISTINCT_VIEW AS 
+SELECT DISTINCT DEPRTMENT FROM T3;
+
+-- for this view not possible to do the DML opeation becuase of DISTINCT
+INSERT INTO emp_sal_1 VALUE (10,'KARTHI',800); --NOT
+
