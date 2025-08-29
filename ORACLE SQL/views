@@ -76,3 +76,16 @@ SELECT DISTINCT DEPRTMENT FROM T3;
 -- for this view not possible to do the DML opeation becuase of DISTINCT
 INSERT INTO emp_sal_1 VALUE (10,'KARTHI',800); --NOT
 
+                   --1.VIEW WITH READ ONLY ( not allow DML)
+Used to restrict insert and update performed through the view
+only select statement is allowed against the views
+-- SYN:
+CREATE (OR REPLACE) VIEW view_name AS 
+SELECT SELCT QUERY WITH READ ONLY;
+-- EX:
+CREATE OR REPLACE VIEW read_view AS
+SELECT * FROM EMPLOYEE WITH READ ONLY
+
+-- Ex:
+INSERT INTO EMPLOYEE VALUES (1,10)
+-- while enter add some insert or update is not allow (DML operation) in view , but in table wise is possible                   
