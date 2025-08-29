@@ -88,4 +88,16 @@ SELECT * FROM EMPLOYEE WITH READ ONLY
 
 -- Ex:
 INSERT INTO EMPLOYEE VALUES (1,10)
--- while enter add some insert or update is not allow (DML operation) in view , but in table wise is possible                   
+-- while enter add some insert or update is not allow (DML operation) in view , but in table wise is possible
+
+
+-- View with check option
+ WHERE clause is mandatory for check option
+ used to allow DML operation based on the check condition  through the view
+--  SYN:
+CREATE (OR REPLACE) VIEW view_name AS 
+SELECT select_query WITH CHECK OPTION;
+
+-- EX:
+CREATE VIEW VIEW_CHECK AS 
+SELECT * FROM TEST_1 WHERE A IN(1,2) WITH CHECK OPTION; -- FOR BOTH CONDTION ONLY IT ALLOW THE dml OPEARTION                   
