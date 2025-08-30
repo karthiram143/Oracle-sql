@@ -1,0 +1,99 @@
+-- Materialized view:
+ is a view that stores the results of the views query
+ snapshot of the dataDML operation not applicable
+--  Advantage:
+ used to improve the efficiency  of a query
+ materialized view can also be used to simplify a query
+--  Disadvantages:
+ the data needs to be refreshed/ the data need to be updated
+ data may be inconsistent 
+ stores data physically
+--  sun:
+ CREATE MATERIALIZED VIEW viewname(BULID IMMEDIATE| BUILD DEFERRED)
+(REFRESH(FASE|COMPETE|FORCE)(ON DEMAND|ON COMMIT))
+AS select Query;
+
+-- simple 
+-- syntax:
+CREATE MATERIALIZED VIEW viewname asselect Query;
+-- ex:
+CREATE materialized VIEW M_emp As select * from employee
+
+-- WHILE QUERY THE materialized same result
+-- If i am delete the records from the employee table it got delete but it not delete in the view
+
+    -- Materialized view refresh Methods:
+ Complete Refersh
+ fast refresh
+ force Refresh
+--  complete refresh
+  scans the whole table and then do the refresh
+--   SYN:
+Create MATERIALIZED VIEW viewname (build IMMDEIATE |BULID DEFERRED)
+(REFERSH COMPLETE)(ON DEMAND|ON COMMOTP)
+AS SELECT AQUERY
+
+BULID IMMEDIATE-DEFUALT
+Refresh complete - on demand -is default
+-- EX:
+CREATE MATERIALIZED VIEW employee_mtd1
+REFRESH COMPLETE
+AS SELECT * FROM EMPLOYEE
+
+SELECT * FROM USER_MVIEWS
+
+while delete 
+select * FROM employee
+Delete from employee where employee_id=1--AFTE DELETE NOT THERE IN THE EMPLOYEE TBALE
+
+SELECT * FROM employee_mtd1 --ITS THERE DELETRE VALUES , I WANT TO REFERSH
+--1:
+BEGIN
+DBMS_MVIEW.refresh('employee_mtd1','c');
+end;
+/
+--2:
+Exec dbms_view.refresh('employee_mtd1','c');
+
+-- after query  data got deleted with latest data in MVIEW
+SELECT * FROM employee_mtd1
+
+-- MEHTOD -2
+CREATE MATERIALIZED VIEW employee_mtd2
+BUILD DEFERRED
+REFRESH COMPLETE
+AS SELECT * FROM EMPLOYEE
+
+SELECT * FROM USER_MVIEWS,--LAST_REFRESH_TYPELAST_REFRESH_DATE,LAST_REFRESH_END_TIME IS blank for 1st time after refresh the data will reachived
+
+-- MEHTOD -3(ALL)
+CREATE MATERIALIZED VIEW employee_mtd3
+BUILD DEFERRED
+REFRESH COMPLETE ON COMMIT --WHEN EVER I USE THE COMMIT IT COMMIT AUTOMATICALLY ITS BLANK AFTER REFERSH ONLY THE DATA GOT REACHIVED IN THE COME
+AS SELECT * FROM EMPLOYEE
+
+COMPILE:
+BEGIN
+DBMS_MVIEW.refresh('employee_mtd1','c');
+end;
+
+-- DELETE STATEMENT
+Delete from employee where employee_id=2
+
+SELECT * FROM employee;
+COMMIT;-- NOT THERE 2 ND RECORDS
+
+SELECT * FROM employee_mtd3
+
+-- MEHTOD -4(NOT BUILD DEFERRED)
+CREATE MATERIALIZED VIEW employee_mtd4
+REFRESH COMPLETE ON COMMIT 
+AS SELECT * FROM EMPLOYEE
+-- DELETE STATEMENT
+Delete from employee where employee_id=4;--NOT THERE
+
+SELECT * FROM employee_mtd3-- THERE
+
+-- AFTER 
+COMMIT;
+SELECT * FROM employee_mtd3--NOT THERE
