@@ -104,3 +104,40 @@ SELECT * FROM TEST_1 WHERE A IN(1,2) WITH CHECK OPTION; -- FOR BOTH CONDTION ONL
 --  i am trying to insert
 insert into VIEW_CHECK values (1,'d') -- it allow
 insert into VIEW_CHECK values (3,'D') --it NOT
+
+                -- Force View:
+Creating a view Without having base table
+-- syn:
+CREATE (OR REPLACE ) FORCE VIEW view_name AS SELECT SELECT_QUERY;
+
+-- For this table there is no table
+SELECT * FROM MENU; — is not available
+
+Create view dummy_view as Select * from menu;-- not created
+create force view dummy_view as Select * from menu;-- here we are using force is created
+
+—if you want to use the view over all
+select * from user_objects where object_type='view'and object_name ='DUMMY_VIEW'; -- it status has been invalid
+-- after creating table, the need to compile it  then change into valid
+
+         
+        -- compile/ Re-compile view
+ used to change the view status from INVALID TO VALID
+-- syn:
+Alter view view_name COMPILE;
+
+-- Checking before
+SELECT * FROM USER_OBJECTS where 
+OBJECT_TYPE='VIEW' AND OBJECT_NAME =UPPER('ccom_view');
+-- while delete the one column
+-- to drop the column in the table 
+alter table menu drop menu_name ;
+-- need to create a same column that point of time I crate the column that point of time also status as been invalid
+-- after checking the view status is invalid status so for this case use the compile the view
+
+1.ALTER VIEW com_view compile;
+or 
+2.CREATE OR REPLACE VIEW COM_VIEW AS
+SELECT * FROM MENU;
+OR
+3.SELECT * FROM com_view;
