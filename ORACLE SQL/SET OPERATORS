@@ -1,0 +1,129 @@
+                 -- SET OPERATORS
+A set operator is used to combine the result of two or more queries into a single result.
+-- type:
+1.union
+2.Union all
+3.intersect
+4.minus
+-- RULES:
+1. Each query will have at least two select statements that are separated by a set operators
+2. Must have the same number of columns and same data type on every query
+3. If using aggregate function , all select statements much have their own group by clause
+4. ALL SELECT statement must have a separate from clause
+5. The first SELECT statement  is used for all ALIAS and format statements
+6. The last select will have the order by clause
+7. Duplicate rows are eliminated unless the all keyword is used
+-- EX:
+SELECT FIRST_NAME,SALARY 
+FROM EMPLOYEE WHERE SALARY=(SELECT MAX(SALARY) FROM EMPLOYEE)
+UNION
+SELECT FIRST_NAME , SALARY 
+FROM EMPLOYEE WHERE SALARY=(SELECT MIN(SALARY) FROM EMPLOYEE)
+-- RESULT:
+FIRST_NAME	SALARY
+James	47000
+Matthew	75000
+--  IF DONT WANT TO COLUMN FOR 2ND SELECT USE NULL
+SELECT FIRST_NAME,SALARY 
+FROM EMPLOYEE WHERE SALARY=(SELECT MAX(SALARY) FROM EMPLOYEE)
+UNION
+SELECT FIRST_NAME , NULL -- HERE YOU MAY PUT NULL IF YOU WANT 
+FROM EMPLOYEE WHERE SALARY=(SELECT MIN(SALARY) FROM EMPLOYEE)
+-- RESULT:
+FIRST_NAME	SALARY
+James	-
+Matthew	75000
+ 5TH RULE:
+ --  IF DONT WANT TO COLUMN FOR 2ND SELECT USE NULL
+SELECT FIRST_NAME,SALARY 
+FROM EMPLOYEE WHERE SALARY=(SELECT MAX(SALARY) FROM EMPLOYEE)
+UNION
+SELECT FIRST_NAME , SALARY AS SAL
+FROM EMPLOYEE WHERE SALARY=(SELECT MIN(SALARY) FROM EMPLOYEE)
+-- RESULT: IT NOT TAKEN THE ALIAS COLUMN NEED TO GIVEN 1ST SEELCT SATEMENT
+FIRST_NAME	SALARY
+James	47000
+Matthew	75000
+
+-- 6TH RULE--
+SELECT FIRST_NAME,SALARY 
+FROM EMPLOYEE WHERE SALARY=(SELECT MAX(SALARY) FROM EMPLOYEE)
+ORDER BY FIRST_NAME ASC--IT SHOULD BE COME AT LAST
+UNION
+SELECT FIRST_NAME , SALARY AS SAL
+FROM EMPLOYEE WHERE SALARY=(SELECT MIN(SALARY) FROM EMPLOYEE)
+-- RESULT: (IT WORKS)
+SELECT FIRST_NAME,SALARY 
+FROM EMPLOYEE WHERE SALARY=(SELECT MAX(SALARY) FROM EMPLOYEE)
+UNION
+SELECT FIRST_NAME , SALARY AS SAL
+FROM EMPLOYEE WHERE SALARY=(SELECT MIN(SALARY) FROM EMPLOYEE)
+ORDER BY FIRST_NAME ASC--IT SHOULD BE COME AT LAST
+
+---UNION 
+  1.It returns only the unique/ distinct result.  
+  2. Output will be sorted by default   
+ 3. UNION is often slower than union all ,because there is an operation to remove duplicate values , which is often a costly step in a query
+  4. Not suitable for performance turning bcoz it remove duplicat records  syn: SELECT QUERY1
+UNION 
+SELCT QUERY-2
+
+EX:
+Select * from set_op1 --10
+union— it remove the duplicate both data is matches means any one query match is removed 1st query 3 records , 2nd query 3 records is removed only one 3 
+select from set_op2; --8
+RESULT:
+ 10+5=15
+---- UNION ALL
+  1.It returns all records from all the query  
+  2. Output will not sorted by default   
+  3. It will not remove the duplicate records
+  4. suitable for performance turning bcoz it does not remove duplicate records and sorting 
+  5. Union all is usually faster than union because it not not perform any duplicate removal  
+--syn: 
+SELECT QUERY1
+UNION ALL
+SELCT QUERY-2
+
+EX:
+Select * from set_op1   — 8 
+UNION ALL                      — IT GET ALL THE DATA
+select from set_op2  —10
+RESULT:
+IT GIVE -10+8=18
+
+           ---- INSERSECT
+  1.It returns all The common records from all the query   
+  2. Output will  sorted by default   
+  3. It will remove the duplicate records
+ --syn:
+ SELECT QUERY1
+INTERSECT
+SELCT QUERY-2
+
+EX:
+Select * from set_op1   — 8 
+INTERSECT                      — IT GET MACTHING DATA  
+select from set_op2    —10
+RESULT:—3     only matching records so give me only match data fro both table
+IT GIVE -10(3)+8(3)= 3
+
+
+     ---  MINUS
+MINUS
+  1.It returns all The  records from one query excluding the records from the other query result.  
+  2. Output will be sorted by default 
+  3. It will remove the duplicate records 
+ syn: 
+SELECT QUERY1
+MINUS
+SELCT QUERY-2
+
+EX:
+Select * from set_op1 
+MINUS                      — Remove matching values and to show the set_p1 table data only 
+select from set_op2 
+or 
+Select * from set_op2 
+MINUS                      — Remove matching values and to show the set_p2 table data only 
+select from set_op1
