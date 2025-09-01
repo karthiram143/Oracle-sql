@@ -97,3 +97,64 @@ SELECT * FROM employee_mtd3-- THERE
 -- AFTER 
 COMMIT;
 SELECT * FROM employee_mtd3--NOT THERE
+
+-- FAST REFERSH 
+
+ Updates only the changes we have changed
+--  syn:
+ CREATE MATERIALIZED VIEW viewname(BULID IMMEDIATE | BUILD DEFERRED)
+(REFERSH FAST)N( ON DEMAND | ON COMMIT) AS
+ Selet query;
+--  ex:
+ CREATE MATERIALIZED VIEW employ_mtd1REFRSH FAST AS
+Select * from employee
+--  if primary key  checks
+alter table EMPLOYEE 
+ADD constraint empoloyee_pk PRIMARY KEY(EMPLOYEE_ID);
+
+-- 1.defernatiely need to be there primary key
+-- 2.need to create a log table
+-- SYN:
+CREATE MATERIALIZED VIEW LOG ON employee
+ -- to check the log for the Dictonary table
+ select * from user_mview_logs
+-- After only need to create mview
+CREATE MATERIALIZED VIEW employ_fast_mtd1
+REFRESH FAST AS
+Select * from EMPLOYEE
+
+i am deleting the one records in base table:
+DELETE FROM EMPLOYEE
+WHERE EMPLOYEE_ID='3'
+-- alter checking the log table for checking deleted data 
+SELECT * FROM MLOG$_EMPLOYEE	
+
+
+-- REFESH METHODS FOR THE MVIEWS -'F- menans fast refesh'
+BEGIN
+DBMS_MVIEW.REFRESH('employ_fast_mtd1','F');
+END;
+
+-- ** after refreshing the data that particular data only scaned and refresh the data
+
+-- Method -2( data is no data found in 1st time after refresh the data will rechived)
+CREATE MATERIALIZED VIEW employ_fast_mtd2
+BUILD DEFERRED
+REFRESH FAST AS
+Select * from EMPLOYEE
+-- before run the fast need to run complete:
+BEGIN
+DBMS_MVIEW.REFRESH('employ_fast_mtd1','C');
+END;
+-- method -3
+CREATE MATERIALIZED VIEW employ_fast_mtd3
+REFRESH FAST ON COMMIT
+AS
+Select * from EMPLOYEE
+
+-- method -4
+CREATE MATERIALIZED VIEW employ_fast_mtd4
+BUILD DEFERRED
+REFRESH FAST ON COMMIT
+AS
+Select * from EMPLOYEE
