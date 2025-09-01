@@ -1,4 +1,4 @@
--- Materialized view:
+                                          -- Materialized view:
  is a view that stores the results of the views query
  snapshot of the dataDML operation not applicable
 --  Advantage:
@@ -22,11 +22,11 @@ CREATE materialized VIEW M_emp As select * from employee
 -- WHILE QUERY THE materialized same result
 -- If i am delete the records from the employee table it got delete but it not delete in the view
 
-    -- Materialized view refresh Methods:
- Complete Refersh
- fast refresh
- force Refresh
---  complete refresh
+             -- Materialized view refresh Methods:
+ 1.Complete Refersh
+ 2.fast refresh
+ 3.force Refresh
+                                        --  complete refresh
   scans the whole table and then do the refresh
 --   SYN:
 Create MATERIALIZED VIEW viewname (build IMMDEIATE |BULID DEFERRED)
@@ -98,7 +98,7 @@ SELECT * FROM employee_mtd3-- THERE
 COMMIT;
 SELECT * FROM employee_mtd3--NOT THERE
 
--- FAST REFERSH 
+                                             -- FAST REFERSH 
 
  Updates only the changes we have changed
 --  syn:
@@ -158,3 +158,28 @@ BUILD DEFERRED
 REFRESH FAST ON COMMIT
 AS
 Select * from EMPLOYEE
+
+
+                                ---            FORECE REFRESH
+
+  if u dont know which refresh to perform then use this refresh
+  oracle will first try to do fast refresh if nothing is happened then it will do the complete refresh
+  based on the check I will do the fast or complete to in oracle
+--   SYN:
+CREATE MATERIALIZED VIEW viewname(build IMMEDIDATE | BULID DEFERRED)
+(REFRESH FORCE)(ON DEMAND | ON COMMIT)
+AS SELECT_QUERY
+
+-- EX:
+CREATE MATERIALIZED VIEW employ_force_mtd1
+REFRESH FORCE AS
+SELECT * FROM EMPLOYEE
+
+SELECT * FROM employ_force_mtd1
+
+SYN:
+Begin
+DBMS_MVIEW.REFRESH('employ_force_mtd1','?');
+end;
+or 
+exec dbms_mview.refresh('mview_name,,,?,);
