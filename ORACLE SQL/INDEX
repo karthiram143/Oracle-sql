@@ -186,3 +186,22 @@ CREATE UNIQUE INDEX  unique_indx_emp on  EMP_8 (ID,NAME);--Aleady 3 records is t
  INSERT INTO EMP_8 VALUES(1,'MANI');
   INSERT INTO EMP_8 VALUES(2,'MANI'); --2 values also insert but is dublicate values is consider like single column 1,mani,  2, main like it take it consider as single it allow
   INSERT INTO EMP_8 VALUES(2,'MANI');-- here is not allowed beacuse 2,mani is aleady there so is not allow to insert
+
+          --  5.FUNCTION BASED INDEX
+if an index is created using the function or expression then it is function based index
+it can be either  b-tree or bitmap index
+-- SYN:
+Create index index_name on (table_name (function|expression);
+-- ex:(function- aggreate funcation)
+select first_name ,length (first_name) from employee
+where  length (first_name) =6;
+/
+create index function_based_indx_emp on employee (first_name);--while using the code and check means is not taking the index
+create index function_based_indx_emp_1 on employee (length(first_name));--after checking and run its taking the index
+
+-- - ex:(expression)
+select first_name ,salary, salary/2*10 as new_sal from employee
+where salary/2*10 >270000;
+/
+create index function_based_indx_emp_2 on employee(salary/2*10);
+-- after checking the and run the code it take the index to use the (** range scan **)
