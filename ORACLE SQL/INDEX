@@ -205,3 +205,34 @@ where salary/2*10 >270000;
 /
 create index function_based_indx_emp_2 on employee(salary/2*10);
 -- after checking the and run the code it take the index to use the (** range scan **)
+
+
+        --    6.INDEX ORGANIZED TABLE
+Organizing the data at the time of inserting
+you must have primary key on the table
+cannot able to partition an index organized table
+-- syn:
+CREATE TABLE TABLE_NAME (COLUMN datatype,..column_name datatype)
+ORGANIZATION INDEX;
+
+-- Ex:
+1.CREATE TABLE EMP7(ID NUMBER,NAME VARCHAR2(20)); --TABLE CREATE AND WITH INSERT RECORDS LIKE 5,4 ,3,2 LIKE WISE DATa got insert is not organinzed so for 
+CREATE TABLE EMP7(ID NUMBER,NAME VARCHAR2(20)) 
+ORGANIZATION INDEX;;  --- ** While creating the table is not allow because is need to create a primary key column -- FOR HERE 
+
+-- right query
+CREATE TABLE EMP7(ID NUMBER primary key,NAME VARCHAR2(20))
+ORGANIZATION INDEX;
+
+INSERT INTO EMP7 VALUES(4,'John')
+insert INTO EMP7 VALUES (5,'RAVI')
+insert INTO EMP7 VALUES (2,'sanj')
+insert INTO EMP7 VALUES (1,'aravi')
+
+select * from EMP7 -- it was oragnaized
+result:
+ID	NAME
+1	aravi
+2	sanj
+4	John
+5	RAVI
