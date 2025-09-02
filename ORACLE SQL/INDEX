@@ -129,6 +129,13 @@ select count(*) from EMP_2
 WHERE GENDER ='M'
 -- for this code to check the gender after that go the index checking after it  NOT go in table beacuse it based on bit map index access the index count
 -- STRUCUTURE
+EMP_2
+FIRST_NAME	GENDER
+John	M
+Alice	F
+Robert	M
+Emma	F
+Michael	M
 Row	GENDER	M (bitmap)	F (bitmap)
 1	M	1	0
 2	F	0	1
