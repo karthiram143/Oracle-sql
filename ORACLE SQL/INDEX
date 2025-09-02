@@ -83,3 +83,56 @@ Leaf nodes → A-F, G-M, N-S, T-Z → point to actual ROWIDs
 
 ROWIDs → references to table rows in sorted order
 
+                --    2.Bitmap INDEX
+1.Stores the data in a form of bitmap array (ie) stores the indexkey column information along with its rowed
+2.it is created on low cardinality columns- like status or gender column last number of duplicate records column using
+-- SYN:
+Create BITMAP INDEX index_name on table_name (column_name);
+-- ex:(BEFORE CREATING INDEX)
+select FIRST_NAME from EMP_2
+WHERE FIRST_NAME	='David'
+
+SELECT * FROM V$SQL_PLAN-- CHECK THE COST
+
+SELECT * FROM V$SQL WHERE SQL_TEXT LIKE ('select FIRST_NAME from EMP_2
+WHERE FIRST_NAME	=''David''%') -- Based on the sql ID TO check the plan after
+-- after
+SELECT * FROM V$SQL_PLAN where sql_id='depqlsmedmza;'-- here i can able to see the cost
+-- RESULT:(ITS SCAN FULL)
+COST:3
+-- after creating the index
+CREATE BITMAP INDEX BITMAP_INDEX_EMP_2 ON EMP_2(GENDER);--CREATED
+-- To checking the what are index are created in this schema
+SELECT * FROM user_indexes where TABLE_NAME='EMP_2'
+-- RESULT:
+INDEX_NAME	INDEX_TYPE	TABLE_OWNER	TABLE_NAME	TABLE_TYPE	UNIQUENESS	COMPRESSION	PREFIX_LENGTH	
+INDEX_EMP_2	BITMAP	WKSP_KARTHIRAM	EMP_2	TABLE	NONUNIQUE	DISABLED	-	APEX_BIGFILE_INSTANCE_TBS3
+-- or other To checking the what are index are created in this schema
+SELECT * FROM USER_IND_COLUMNS
+WHERE TABLE_NAME='EMP_2'
+-- RESULT:
+INDEX_NAME	TABLE_NAME	COLUMN_NAME	COLUMN_POSITION	COLUMN_LENGTH	CHAR_LENGTH	DESCEND	COLLATED_COLUMN_ID
+INDEX_EMP_2	EMP_2	GENDER	1	1	1	ASC	
+
+-- AFTER RUNING THE QUERY GIVE THE SAME RESULT:
+select * from EMP_2
+WHERE GENDER IN('M','F')
+-- RESULT: why its coming 1st for the gender for F its ordering the gender coluumn in asc
+FIRST_NAME	GENDER
+Alice	F
+Emma	F
+Sophia	
+
+-- for this code to check the gender after that go the index checking after it go in table
+
+select count(*) from EMP_2
+WHERE GENDER ='M'
+-- for this code to check the gender after that go the index checking after it  NOT go in table beacuse it based on bit map index access the index count
+-- STRUCUTURE
+Row	GENDER	M (bitmap)	F (bitmap)
+1	M	1	0
+2	F	0	1
+3	M	1	0
+4	F	0	1
+5	M	1	0
+
