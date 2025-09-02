@@ -143,3 +143,46 @@ Row	GENDER	M (bitmap)	F (bitmap)
 4	F	0	1
 5	M	1	0
 
+                --    3.COMPOSITE INDEX
+1.Created on multiple columns in a table
+2.it is also called as concatenated index
+-- syn:
+create INDEX index_name on table_name(column1,…cloumn(n));
+-- before create index if anything is there
+select * from user_indexes where table_name='EMPLOYEE';
+-- EX:
+Create index composite_emp on employee (first_name,last_name,employee_id);
+
+SELECT * FROM EMPLOYEE WHERE first_name='Michael' AND LAST_NAME='Brown' AND SALARY='54000'
+-- For the index column for 1st column must have the under the where clause is not is not taking -first_name='Michael'- not using it full scaning all the column
+SELECT * FROM EMPLOYEE WHERE  LAST_NAME='Brown' AND SALARY='54000'
+--  i am createring one more for the index
+Create index composite_emp_1 on employee (DEPARTMENT_ID,HIRE_DATE,employee_id);
+
+SELECT * FROM EMPLOYEE WHERE DEPARTMENT_ID=40 AND HIRE_DATE='8/25/2019' AND employee_id='5'
+-- For the index column for 1st column must have the under the where clause here it if not department_id that point of time also take the 
+-- Index(less distinct values number values are there distinct)
+SELECT * FROM EMPLOYEE WHERE HIRE_DATE='8/25/2019' AND employee_id='5'
+-- ex: DEPARTMENT_ID is not there for the where clasuse for 1st column DEPARTMENT_ID only few distinct values that point of time take the index composite_emp_1
+
+                --    3.unique index
+does not allow duplicate values and allow null values
+SYN:
+CREATE UNIQUE INDEX index_)name on Table_name (column,(,column2,…));
+-- Ex:
+CREATE TABLE EMP_8 (ID NUMBER,NAME VARCHAR2(20));
+/
+CREATE UNIQUE INDEX  unique_indx_emp on  EMP_8 (ID);
+/
+SELECT * FROM USER_IND_COLUMNS WHERE TABLE_NAME='EMP_8'
+/
+INSERT INTO EMP_8 VALUES(1,'MANI');-- Rerun the insert i am getting this error (ORA-00001: unique constraint (WKSP_KARTHIRAM.UNIQUE_INDX_EMP) violated)
+INSERT INTO EMP_8 VALUES('','MANI'); --it allow null value in many times
+/
+drop index unique_indx_emp
+-- newly created index and name column created index
+CREATE UNIQUE INDEX  unique_indx_emp on  EMP_8 (ID,NAME);--Aleady 3 records is there so i am getting error Error at line 1/42: ORA-01452: cannot CREATE UNIQUE INDEX; duplicate keys found
+ i trying to insert,
+ INSERT INTO EMP_8 VALUES(1,'MANI');
+  INSERT INTO EMP_8 VALUES(2,'MANI'); --2 values also insert but is dublicate values is consider like single column 1,mani,  2, main like it take it consider as single it allow
+  INSERT INTO EMP_8 VALUES(2,'MANI');-- here is not allowed beacuse 2,mani is aleady there so is not allow to insert
