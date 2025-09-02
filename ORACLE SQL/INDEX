@@ -1,0 +1,24 @@
+INDEX:
+It is used to improve the performance of the query or used
+To reduce the cost of the query
+-- ex:
+SELECT first_ame, salaryfrm employewhere first_name='David';
+-- check ins
+1.syntactic check- to like from (oracle reserved keyword check) 
+2.sematic check - to like 1st check table name,  column names-under the column like to check with right with left check 
+ex:salary value is checking if ok it go next in first_name column
+3. full scan - If the no index is there it check full scanchecking the CPU cost to checkin scaning using the code
+SELECT * FROM c$sql_plan;
+ here is lot of data we need to get the v$sql id need to take
+--  using
+SELECT * FROM V$SQL 
+WHERE SQL_TET LIKE ('SELECT first_Name, salaryfr0m employee%');- I am getting sql_id
+after 
+select * from v$sql_plan where sql_id='dqwvdgwdck6z'; 
+TYPE:
+ 1.B-tree index
+ 2.bitmap index
+ 3.composite index
+ 4.unique index
+ 5.function based index
+ 6.index organized table
