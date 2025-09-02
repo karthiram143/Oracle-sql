@@ -22,3 +22,64 @@ TYPE:
  4.unique index
  5.function based index
  6.index organized table
+
+                --    1.B-tree Index:
+1.balanced tree index,(ie) it is an ordered list of values that are divided into range associated with rowed
+2.it is crated on high cardinality columns.
+-- SYN:
+Create INDEX index_name on table_name)column_name);
+-- ex:(BEFORE CREATING INDEX)
+select FIRST_NAME,SALARY from employee
+WHERE FIRST_NAME	='David'
+
+SELECT * FROM V$SQL_PLAN-- CHECK THE COST
+
+SELECT * FROM V$SQL WHERE SQL_TEXT LIKE ('select FIRST_NAME,SALARY from employee
+WHERE FIRST_NAME	=''David''%') -- Based on the sql ID TO check the plan after
+-- after
+SELECT * FROM V$SQL_PLAN where sql_id='depqlsmedmza;'-- here i can able to see the cost
+-- RESULT:(ITS SCAN FULL)
+COST:3
+-- after creating the index
+CREATE INDEX INDEX_EMPLOYEE ON EMPLOYEE(FIRST_NAME);--CREATED
+-- To checking the what are index are created in this schema
+SELECT * FROM user_indexes where TABLE_NAME='EMPLOYEE'
+-- RESULT:
+INDEX_NAME	INDEX_TYPE	TABLE_OWNER	TABLE_NAME	TABLE_TYPE	UNIQUENESS	COMPRESSION	PREFIX_LENGTH	TABLESPACE_NAME
+-- or other To checking the what are index are created in this schema
+SELECT * FROM USER_IND_COLUMNS
+WHERE TABLE_NAME='EMPLOYEE'
+-- RESULT:
+INDEX_NAME	TABLE_NAME	COLUMN_NAME	COLUMN_POSITION	COLUMN_LENGTH	CHAR_LENGTH	DESCEND	COLLATED_COLUMN_ID
+INDEX_EMPLOYEE	EMPLOYEE	FIRST_NAME	1	50	50	ASC	-
+
+-- AFTER RUNING THE QUERY GIVE THE SAME RESULT:
+select FIRST_NAME,SALARY from employee
+WHERE FIRST_NAME	='David'
+
+-- RUN THE TO CHECK THE COST
+SELECT * FROM V$SQL_PLAN where sql_id='depqlsmedmza;'
+-- RESULT:(RANGE SCAN)
+COST:1 --TO PERFOMANCE TUING
+
+--** AFTER creating index - it doing asedning to go directly in that place to show the result
+SELECT FIRST_NAME FROM EMPLOYEE order by FIRST_NAME asc; --its copying the table
+
+B-TREE STRUCTURE (Employee Names)
+
+                    Emp name A-Z
+                   /           \
+             A-M                     N-Z
+           /     \                 /     \
+       A-F       G-M           N-S       T-Z
+      /  \      /   \         /   \     /   \
+   Rowid Rowid Rowid Rowid Rowid Rowid Rowid Rowid
+Explanation:
+Root node → Emp name A-Z (top of tree)
+
+Branch nodes → A-M and N-Z (split ranges)
+
+Leaf nodes → A-F, G-M, N-S, T-Z → point to actual ROWIDs
+
+ROWIDs → references to table rows in sorted order
+
