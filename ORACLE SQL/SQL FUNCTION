@@ -1,0 +1,38 @@
+-- Sql functions:
+SQL functions must return values
+manipulate output data
+perform calculation on data
+-- DUAL TABLE( pre defined table to given oralce):
+ Contains one column and one row with the value X
+ it can be accessed by all users in the DB
+It is also called as dummy table -- 1 row , 1 column called dual table
+ex: 
+SELECT 1 FROM DUAL
+-- result:
+1-column
+1- data
+-- ex-2:
+SELECT 1+5 FROM DUAL
+-- result:
+1+5
+6
+
+-- TYPE OF SQL FUNCATION
+ 1.Single row function 
+ 2.Multi row function
+--  MULTI ROW FUNCATION
+  Work upon group of rows and return one result for the complete set of rows
+  it also as aggregate function or group function
+
+--   SINGLE ROW function
+  work on single row and return one output per row
+  accept arguments and return one value
+  can be used as a nested function
+--   SYN:
+function_name [arumnet1, argument-2]
+-- type of single row function
+1. General function/Null function
+2.character function/ string function
+3.number function
+4.date function
+5.conversion function
