@@ -72,3 +72,19 @@ RESULT:
 50
 -- EX:3
 SELECT DEPARTMENT_ID ,NVL2(DEPARTMENT_ID,1,0.5) FROM EMPLOYEE
+
+                     ---3.NULLIF FUNCTION
+ If accepts only two arguments if both arguments are same then prints null else prints the 1st aruguments
+--  SYN:
+NULIF ( argument1, argument2)
+-- ex:
+SELECT NULLIF(50,50) FROM DUAL
+Result: NULL
+-- ex:
+select NULLIF( 5,50) FROM DUAL
+RESULT: to print 1st arugment 
+5
+-- EX:4
+select NULLIF( null,null) FROM DUAL -- for both argumnet we are not given the null it thorugh error(not)
+select NULLIF( 50,null) FROM DUAL RESULT:50 -- for both argumnet we are given the null it thorugh error(yes)
+select NULLIF( NULL,1) FROM DUAL -- for both argumnet we are NOT given the null it thorugh error(NOT)
