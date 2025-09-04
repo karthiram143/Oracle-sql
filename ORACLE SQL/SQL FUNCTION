@@ -88,3 +88,11 @@ RESULT: to print 1st arugment
 select NULLIF( null,null) FROM DUAL -- for both argumnet we are not given the null it thorugh error(not)
 select NULLIF( 50,null) FROM DUAL RESULT:50 -- for both argumnet we are given the null it thorugh error(yes)
 select NULLIF( NULL,1) FROM DUAL -- for both argumnet we are NOT given the null it thorugh error(NOT)
+
+         --    4.COALLESE FUNCTION
+It print the 1st not null value it accepts (n) no of columns
+-- SYN:
+COALESE( arguments1,arum2 ….argument(n)
+-- ex:
+SELECT COALESCE(NULL,NULL,NULL,50,NULL,70) FROM DUAL-- it checking one by one arugment , where is getting is not null value to show the reuslt
+Result: 50
