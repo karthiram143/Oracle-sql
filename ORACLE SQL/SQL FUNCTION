@@ -178,3 +178,91 @@ SELECT  TRANSLATE('ABCDEBSCA','AB',12) from dual
 RESULT: 12CDE2SC1
 1. SELECT  TRANSLATE('ABCDE','AB',123) from dual. --12CDE -- HERE INNORE THE 3 it translate 1,2
 2. SELECT  TRANSLATE('ABCDE','AB',1) from dual 1CDE -- HERE i am not provide the B to translae so for the it remove the B for the stirng
+
+LPAD - left pad
+used to pads the left side of a string with a specific set of characters
+-- syn:
+LPAD ( argument , padded_length, pacing_string)
+-- EX:
+SELECT FIRST_NAME, LPAD(FIRST_NAME,15,'*') from employee
+-- result:
+FIRST_NAME	LPAD(FIRST_NAME,15,'*')
+Anthony	********Anthony -- total count -15
+Barbara	********Barbara
+RPAD
+-- syn:
+RPAD ( argument , padded_length, pacing_string)
+ex 2: RPAD- right pad
+SELECT FIRST_NAME, RPAD(FIRST_NAME,15,'*') from employee
+-- RESULT:
+FIRST_NAME	RPAD(FIRST_NAME,15,'*')
+Anthony	Anthony********
+Barbara	Barbara********
+
+LTRIM
+Used to trim a character form the left side of th a string
+  -- SYN:
+LTRIM ( argument , translate_what, translate_with)
+--  EX:
+SELECT FIRST_NAME, LTRIM(FIRST_NAME,'A') from employee-- REMOVED THE A
+RESULT:
+FIRST_NAME	LTRIM(FIRST_NAME,'A')
+Anthony	nthony
+Barbara	Barbara
+LTRIM
+Used to trim a character form the right side of th a string
+  -- SYN:
+RTRIM ( argument , translate_what, translate_with)
+--  EX:
+SELECT FIRST_NAME, RTRIM(FIRST_NAME,'a') from employee-- REMOVED THE A
+RESULT:
+FIRST_NAME	RTRIM(FIRST_NAME,'A')
+Anthony	Anthony
+Barbara	Barbar-- here its removed the a
+
+TRIM
+Used to trim a character from  string(for both side)
+  -- SYN:
+TRIM ( LEADING(front)| TRALING(back)|BOTH , triming chacheter from argument)
+--  EX:
+SELECT FIRST_NAME, TRIM(LEADING 'A' FROM FIRST_NAME) from employee-- REMOVED THE A
+FIRST_NAME	TRIM(LEADING'A'FROMFIRST_NAME)
+Anthony	nthony
+
+-- EX :2
+SELECT FIRST_NAME, TRIM(TRAILING 'y' FROM FIRST_NAME) from employee-- REMOVED THE y
+-- result:
+FIRST_NAME	TRIM(TRAILING'Y'FROMFIRST_NAME)
+Anthony	Anthon
+
+-- EX:3
+SELECT TRIM(BOTH 'm' FROM 'malayalam') from DUAL-- REMOVED THE m both side
+result: 
+TRIM(BOTH'M'FROM'MALAYALAM')
+alayala
+
+LOWER
+ -Used to convert the set of characters into a lower case
+LOWER (argument)
+-- ex:
+SELECT FIRST_NAME, LOWER(FIRST_NAME) from employee
+Result:
+FIRST_NAME	LOWER(FIRST_NAME)
+Anthony	anthony
+
+UPPER 
+-Used to convert the set of characters into a UPPER case
+UPPER (argument)
+SELECT FIRST_NAME, UPPER(FIRST_NAME) from employee
+O/P:
+FIRST_NAME	UPPER(FIRST_NAME)
+Anthony	ANTHONY
+
+INITCAP
+Used to convert the initial character to upper in the set of characters
+INTICAP(argument)
+-- ex:
+SELECT INITCAP ('karthikeyan') from dual
+o/p:
+INITCAP('KARTHIKEYAN')
+Karthikeyan
