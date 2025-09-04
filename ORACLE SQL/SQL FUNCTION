@@ -149,3 +149,32 @@ Barbara	0
 SELECT FIRST_NAME, INSTR(FIRST_NAME,'n',1,2) from employee
 FIRST_NAME	INSTR(FIRST_NAME,'N',1,2) - 6th position is coming that place only 2nd n is there so
 Anthony	6
+ex: SELECT FIRST_NAME, INSTR(NULL,'n',1,2) from employee---if the argumnet has been null the full thing has been null
+RESULT:
+FIRST_NAME	INSTR(NULL,'N',1,2)
+Anthony	-
+Barbara	-
+EX2:  SELECT FIRST_NAME, INSTR(FIRST_NAME,NULL,1,2) from employee-- i for the seraching string is null the full thing has been null
+
+ 
+  4.REPLACE
+Used to replace the charter with another set of characters
+-- SYN:
+ REPLACE ( argument , replace_what, replace_with)
+-- EX:
+SELECT FIRST_NAME, REPLACE(FIRST_NAME,'n','X') from employee
+FIRST_NAME	REPLACE(FIRST_NAME,'N','X')
+Anthony	AXthoXy
+Barbara	Barbara
+
+  5.TRANSLATE
+  used to translate the chartered with another set of characters 
+  -- SYN:
+ TRANSLATE ( argument , translate_what, translate_with)
+--  EX:
+SELECT  TRANSLATE('ABCDE','AB',12) from dual
+o/p:12CDE
+SELECT  TRANSLATE('ABCDEBSCA','AB',12) from dual
+RESULT: 12CDE2SC1
+1. SELECT  TRANSLATE('ABCDE','AB',123) from dual. --12CDE -- HERE INNORE THE 3 it translate 1,2
+2. SELECT  TRANSLATE('ABCDE','AB',1) from dual 1CDE -- HERE i am not provide the B to translae so for the it remove the B for the stirng
