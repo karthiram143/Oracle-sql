@@ -36,3 +36,39 @@ function_name [arumnet1, argument-2]
 3.number function
 4.date function
 5.conversion function
+
+                    -- NULL FUNCTION 
+ Null function work with any data type
+ null is. Not equal to null
+ null is not equal to space or null is not a space
+ null is null
+
+--  type of null function
+1.NVL FUNCTION
+2.NVL2 FUNCTION
+3.NULLIF FUNCTION
+4.COAESE FUCNTION
+
+1.NVL functionit accepts only two arguments if 1st argument is NULL then prints the 2nd argument
+-- syn:
+NVL(argumnet1, arugumnet 2)
+-- ex:
+select NVL(NULL,50) from dual
+o/p 
+50
+ex-2:
+select manger_id, nvl(manger_id,10) from employee
+
+            --   2.NVL2 FUNCTION
+If accepts only three arguments if 1st argument is null then prints the 3rd argument else print the 2nd argument
+-- SYN:
+NLV2( arugment 1, argument2,argument3)
+-- ex:
+SELECT NVL2(NULL,50,7) FROM DUAL
+Result:7
+-- ex
+:select NVL2( 1,50,7) FROM DUAL
+RESULT:
+50
+-- EX:3
+SELECT DEPARTMENT_ID ,NVL2(DEPARTMENT_ID,1,0.5) FROM EMPLOYEE
