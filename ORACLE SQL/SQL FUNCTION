@@ -266,3 +266,49 @@ SELECT INITCAP ('karthikeyan') from dual
 o/p:
 INITCAP('KARTHIKEYAN')
 Karthikeyan
+
+
+                                     -- NUMBER FUNCTION
+ROUND — used to round the of decimal value to a certain number
+ROUND(N,(D))— N(D) is optional
+EX:
+Select round(43.456,2) from dual--43.46
+TRUNC - used to truncate a number to a specified number of decimal places
+SYN:
+TRUNC(N,(D))— N(D) is optional
+
+EX:
+Select TRUNC(43.456,2) from dual--43.45
+FLOOR - Used to return the whole number equal to or less than a specified number
+SYN: FLOOR (N)
+EX:
+Select FLOOR(43.456) from dual--43
+Select FLOOR(43.9999) from dual--43 ONLY CONSIDER THE BASE VALUE
+
+CEIL - Used to return the whole number equal to or greater than a specified number
+Select CEIL(43.9999) from dual--44. gratest whole number it give
+Select CEIL(43.0001) from dual--44
+
+MOD -used to return the modulus of a number
+SYN:MOD (N,(M))
+Select MOD(25,5) from duaL--O after dividing remainder 
+Select MOD(25,2) from duaL--1 after dividing remainder 
+
+ABS - used to calculate the absolute value of an expression 
+ABS(N)— to get the if I am give negative it change into positive
+Select ABS(258) from duaL--258
+Select ABS(-258) from duaL--258
+
+SIGN -Used to fine the +ve and -ve values
+syn: SIGN(N)
+Select SIGN(258) from duaL --1 if the value 1 means positive one , if neagiative -1
+Select SIGN(-258) from duaL. -1
+
+POWER — Used to power up the value with another values 
+POWER(M,N)
+Select POWER(2,2) from duaL--4, 2*2 MEANS 4, 2ND IS CONSIDER AS POWER OF WHICH VALUE
+Select POWER(2,3) from duaL--8 , 2*2*2
+
+SQRT — used to get the square root of the  given number
+SQRT(N)
+Select SQRT(25) from duaL--5 to sequare root for 25 is 5 ,not put the neagtive values it throguh erorr
