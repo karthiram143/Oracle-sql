@@ -312,3 +312,61 @@ Select POWER(2,3) from duaL--8 , 2*2*2
 SQRT — used to get the square root of the  given number
 SQRT(N)
 Select SQRT(25) from duaL--5 to sequare root for 25 is 5 ,not put the neagtive values it throguh erorr
+
+
+
+                                            --DATA FUNCTION
+Select SYSDATE from dual--9/6/2025
+
+ADD_MONTHS — 
+used to add number of months(n)
+syn: ADD_MONTHS(date expression, month)
+ex: 
+SELECT ADD_MONTHS(SYSDATE,2) from dual-- to inducle 2 months
+o/p--11/6/2025
+possible to give the negative months 
+SELECT ADD_MONTHS(SYSDATE,-2) from dual
+-- RESULT:
+7/6/2025
+-- EX-2
+SELECT ADD_MONTHS(DATE '2025-08-6',-2) from dual--6/6/2025 ONLY LIKE THIS FOMAT OF YYYY-MM-DD
+
+MONTHS_BETWEEN—Used to get the number of months between two dates
+syn:MONTHS_BETWEEN(start_date,end_date)
+ex:
+SELECT MONTHS_BETWEEN(DATE '2025-08-6',DATE '2025-09-6') FROM DUAL-- (-1)
+YOU WANT TO SHOW THE POSTIVE VALUES
+SELECT ABS(MONTHS_BETWEEN(DATE '2025-08-6',DATE '2025-09-6')) FROM DUAL-- (1)
+
+NEXT_DAY— used to get the date of the weekday specified by day name
+sun: NEXT_DAY(date, weekday)
+-- ex:
+SELECT NEXT_DAY(SYSDATE,'SUNDAY') FROM DUAL--9/7/2025( coming sunday, it comes only 7days between it came)
+
+LAST_DAY — used to get the last day o the month
+LAST_DAY(DATE)
+EX:
+SELECT LAST_DAY(SYSDATE) FROM DUAL--9/30/2025 is the last date for this month
+SELECT LAST_DAY(DATE '2025-02-6') FROM DUAL-2/28/2025-- feb month of last date
+
+ROUND -used to round the date to a specific unit.
+ROUND (date, format)
+-- ex: ( today i am in SATDERDAY date-sep-6-2025 )
+SELECT ROUND(SYSDATE,'DAY') FROM DUAL--9/7/2025--it showing the future sunday or coming sunday 
+** ORACLE 1ST DAY is SUNDAY if the day comes like 
+1.(MONDAY,TUESDAY, WEDNESDAY) it came as -last sunday date
+2.(TURSDAY,FRIDAY,SATDERDAY) It came as -coming sunday date is shown
+SELECT ROUND(date '2025-08-01','DAY') FROM DUAL--8/3/2025
+-- use the month as well
+1.1st 15 days of the come it came as -1st day date
+2.16 to 30 days  It came as -next month of start day date or next month start date 
+SELECT ROUND(DATE'2025-08-6','MONTH') FROM DUAL--8/1/2025  i am in day -6
+SELECT ROUND(DATE'2025-08-25','MONTH') FROM DUAL--9/1/2025 NEXT month 1st date
+
+TRUNC —used to truncate the date to a specifc unit
+SYN: TRUNC(date, format)
+SELECT TRUNC(DATE'2025-08-1','MONTH') FROM DUAL--8/1/2025
+SELECT TRUNC(DATE'2025-08-25','MONTH') FROM DUAL--8/1/2025. for this  not a round of 
+    **month of starting date, 
+    **year is year of starting date,
+    **day completed the 1st sunday
